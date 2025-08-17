@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Унаа Сервиси - Помощник по диагностике</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #fff7ed, #ffffff, #eff6ff);
+        min-height: 100vh;
+        padding: 1rem;
+      }
+
+      .container {
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+
+      .brand-header {
+        background: linear-gradient(135deg, #f97316, #2563eb);
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .brand-header h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .logo {
+        background: white;
+        border-radius: 50%;
+        padding: 0.5rem;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .brand-subtitle {
+        color: #fed7aa;
+        font-size: 1.125rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .brand-features {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        font-size: 0.875rem;
+        flex-wrap: wrap;
+      }
+
+      .feature-badge {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 0.25rem 0.75rem;
+      }
+
+      .diagnostic-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .diagnostic-header h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .diagnostic-header svg {
+        color: #f97316;
+        width: 32px;
+        height: 32px;
+      }
+
+      .diagnostic-subtitle {
+        color: #6b7280;
+        font-size: 1.125rem;
+      }
+
+      .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .category-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        text-align: center;
+      }
+
+      .category-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border-color: #fed7aa;
+      }
+
+      .category-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .category-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1f2937;
+      }
+
+      .symptoms-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .symptoms-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .symptoms-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #1f2937;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .back-button {
+        color: #f97316;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .back-button:hover {
+        color: #ea580c;
+      }
+
+      .symptoms-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+      }
+
+      .symptom-card {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .symptom-card:hover {
+        background: #fff7ed;
+        border-color: #fed7aa;
+      }
+
+      .symptom-card svg {
+        color: #6b7280;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+      }
+
+      .symptom-text {
+        font-weight: 500;
+        color: #1f2937;
+      }
+
+      .diagnosis-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+      }
+
+      .diagnosis-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .diagnosis-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #1f2937;
+      }
+
+      .urgency-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border: 1px solid;
+        margin-bottom: 1.5rem;
+      }
+
+      .urgency-high {
+        color: #dc2626;
+        background: #fef2f2;
+        border-color: #fecaca;
+      }
+
+      .urgency-medium {
+        color: #f97316;
+        background: #fff7ed;
+        border-color: #fed7aa;
+      }
+
+      .urgency-low {
+        color: #16a34a;
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+      }
+
+      .diagnosis-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .diagnosis-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .causes-icon {
+        color: #ef4444;
+      }
+
+      .services-icon {
+        color: #f97316;
+      }
+
+      .list {
+        list-style: none;
+        margin-bottom: 1.5rem;
+      }
+
+      .list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .list-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-top: 8px;
+        flex-shrink: 0;
+      }
+
+      .causes-dot {
+        background: #f87171;
+      }
+
+      .services-dot {
+        background: #fb923c;
+      }
+
+      .info-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .info-card {
+        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid;
+      }
+
+      .cost-card {
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+      }
+
+      .cost-title {
+        font-weight: 600;
+        color: #166534;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .cost-value {
+        color: #15803d;
+        font-size: 1.125rem;
+        font-weight: 500;
+      }
+
+      .time-card {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+      }
+
+      .time-title {
+        font-weight: 600;
+        color: #1e40af;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .time-value {
+        color: #1d4ed8;
+        font-size: 1.125rem;
+        font-weight: 500;
+      }
+
+      .contact-card {
+        background: linear-gradient(135deg, #f97316, #2563eb);
+        color: white;
+        text-align: center;
+        padding: 1.5rem;
+      }
+
+      .contact-card svg {
+        margin: 0 auto 0.75rem;
+      }
+
+      .contact-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-phone {
+        font-size: 1.125rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-name {
+        font-size: 0.875rem;
+        color: #fed7aa;
+        margin-bottom: 0.25rem;
+      }
+
+      .contact-hours {
+        font-size: 0.875rem;
+        color: #bfdbfe;
+        margin-bottom: 1rem;
+      }
+
+      .contact-button {
+        background: white;
+        color: #f97316;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.2s;
+        border: none;
+        cursor: pointer;
+      }
+
+      .contact-button:hover {
+        background: #fff7ed;
+      }
+
+      .warning-card {
+        margin-top: 2rem;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .warning-icon {
+        color: #f97316;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .warning-title {
+        font-weight: 600;
+        color: #9a3412;
+        margin-bottom: 0.25rem;
+      }
+
+      .warning-text {
+        color: #c2410c;
+        font-size: 0.875rem;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 2rem;
+        background: linear-gradient(135deg, #f97316, #2563eb);
+        color: white;
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .footer-title {
+        font-weight: 600;
+      }
+
+      .footer-subtitle {
+        font-size: 0.875rem;
+        color: #fed7aa;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      .icon-lg {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Brand Header -->
+      <div class="brand-header">
+        <h1>
+          <div class="logo">🔧</div>
+          Smart Унаа Сервиси
+        </h1>
+        <p class="brand-subtitle">Умная диагностика для вашего автомобиля</p>
+        <div class="brand-features">
+          <div class="feature-badge">⭐ Профессиональный сервис</div>
+          <div class="feature-badge">🔧 Современное оборудование</div>
+        </div>
+      </div>
+
+      <!-- Diagnostic Header -->
+      <div class="diagnostic-header">
+        <h2>
+          <span class="icon">🔍</span>
+          Помощник по диагностике
+        </h2>
+        <p class="diagnostic-subtitle">
+          Опишите проблему с автомобилем и получите рекомендации по ремонту
+        </p>
+      </div>
+
+      <!-- Categories Grid -->
+      <div id="categoriesContainer" class="categories-grid">
+        <div class="category-card" data-category="engine">
+          <div class="category-icon">🔧</div>
+          <div class="category-title">Двигатель</div>
+        </div>
+        <div class="category-card" data-category="brakes">
+          <div class="category-icon">🛑</div>
+          <div class="category-title">Тормозная система</div>
+        </div>
+        <div class="category-card" data-category="suspension">
+          <div class="category-icon">🚗</div>
+          <div class="category-title">Подвеска</div>
+        </div>
+        <div class="category-card" data-category="electrical">
+          <div class="category-icon">⚡</div>
+          <div class="category-title">Электрика</div>
+        </div>
+      </div>
+
+      <!-- Symptoms Container -->
+      <div id="symptomsContainer" class="symptoms-container hidden">
+        <div class="symptoms-header">
+          <h2 class="symptoms-title">
+            <span id="categoryIcon"></span>
+            <span id="categoryTitle"></span>
+          </h2>
+          <a href="#" class="back-button" id="backToCategories"
+            >← Назад к категориям</a
+          >
+        </div>
+        <div id="symptomsGrid" class="symptoms-grid"></div>
+      </div>
+
+      <!-- Diagnosis Container -->
+      <div id="diagnosisContainer" class="diagnosis-container hidden">
+        <div class="diagnosis-header">
+          <h2 class="diagnosis-title">Диагностика</h2>
+          <a href="#" class="back-button" id="backToSymptoms"
+            >← Выбрать другой симптом</a
+          >
+        </div>
+
+        <div id="urgencyBadge" class="urgency-badge">
+          <span class="icon">⚠️</span>
+          <span id="urgencyText"></span>
+        </div>
+
+        <div class="diagnosis-content">
+          <div>
+            <h3 class="section-title">
+              <span class="icon causes-icon">⚠️</span>
+              Возможные причины
+            </h3>
+            <ul id="causesList" class="list"></ul>
+
+            <h3 class="section-title">
+              <span class="icon services-icon">🔧</span>
+              Рекомендуемые услуги
+            </h3>
+            <ul id="servicesList" class="list"></ul>
+          </div>
+
+          <div class="info-cards">
+            <div class="info-card cost-card">
+              <div class="cost-title">
+                <span class="icon">💰</span>
+                Примерная стоимость
+              </div>
+              <div id="costValue" class="cost-value"></div>
+            </div>
+
+            <div class="info-card time-card">
+              <div class="time-title">
+                <span class="icon">🕒</span>
+                Время работ
+              </div>
+              <div id="timeValue" class="time-value"></div>
+            </div>
+
+            <div class="info-card contact-card">
+              <span class="icon-lg">📞</span>
+              <div class="contact-title">Записаться на диагностику</div>
+              <div class="contact-phone">+996 (555) 22-69-55</div>
+              <div class="contact-name">Smart Унаа Сервиси</div>
+              <div class="contact-hours">
+                Работаем ежедневно с 8:00 до 20:00
+              </div>
+              <button class="contact-button">
+                <a
+                  href="tel:+996555226955"
+                  style="
+                    display: inline-block;
+                    background-color: #28a745;
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    text-decoration: none;
+                    font-weight: bold;
+                  "
+                >
+                  Позвонить
+                </a>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="warning-card">
+          <span class="icon warning-icon">⚠️</span>
+          <div>
+            <div class="warning-title">Важно помнить</div>
+            <div class="warning-text">
+              Данная диагностика носит рекомендательный характер. Для точного
+              определения неисправности необходима профессиональная диагностика
+              в условиях автосервиса.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <div class="footer-title">© 2025 Smart Унаа Сервиси</div>
+        <div class="footer-subtitle">
+          Профессиональный ремонт автомобилей • город Ош, Кыргызстан
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Application state
+      let selectedCategory = "";
+      let selectedSymptom = "";
+
+      // Data
+      const symptomCategories = {
+        engine: {
+          title: "Двигатель",
+          icon: "🔧",
+          symptoms: {
+            "no-start": "Автомобиль не заводится",
+            "rough-idle": "Неровная работа на холостом ходу",
+            "power-loss": "Потеря мощности",
+            overheating: "Перегрев двигателя",
+            "oil-leak": "Течь масла",
+            "strange-noise": "Посторонние звуки из двигателя",
+          },
+        },
+        brakes: {
+          title: "Тормозная система",
+          icon: "🛑",
+          symptoms: {
+            "brake-squeal": "Скрип при торможении",
+            "brake-grinding": "Скрежет при торможении",
+            "soft-pedal": "Мягкая педаль тормоза",
+            "brake-vibration": "Вибрация при торможении",
+            "brake-pull": "Увод автомобиля при торможении",
+          },
+        },
+        suspension: {
+          title: "Подвеска",
+          icon: "🚗",
+          symptoms: {
+            "bumpy-ride": "Жёсткий ход",
+            clunking: "Стуки на неровностях",
+            "steering-issues": "Проблемы с рулевым управлением",
+            "tire-wear": "Неравномерный износ шин",
+            "car-pulls": "Увод автомобиля в сторону",
+          },
+        },
+        electrical: {
+          title: "Электрика",
+          icon: "⚡",
+          symptoms: {
+            "battery-dead": "Разряженный аккумулятор",
+            "lights-dim": "Тусклый свет фар",
+            "electrical-failure": "Отказ электрооборудования",
+            "alternator-issues": "Проблемы с генератором",
+          },
+        },
+      };
+
+      const diagnoses = {
+        // Двигатель
+        "no-start": {
+          title: "Автомобиль не заводится",
+          causes: [
+            "Разряженный аккумулятор",
+            "Неисправный стартер",
+            "Проблемы с топливной системой",
+            "Неисправность системы зажигания",
+          ],
+          urgency: "high",
+          services: [
+            "Диагностика электрооборудования",
+            "Замена аккумулятора",
+            "Ремонт стартера",
+          ],
+          estimatedCost: "2000-8000 сом",
+          timeToFix: "1-3 часа",
+        },
+        "rough-idle": {
+          title: "Неровная работа на холостом ходу",
+          causes: [
+            "Загрязнение дроссельной заслонки",
+            "Неисправность датчиков",
+            "Засорение форсунок",
+            "Проблемы с системой зажигания",
+          ],
+          urgency: "medium",
+          services: [
+            "Чистка дроссельной заслонки",
+            "Промывка форсунок",
+            "Замена свечей зажигания",
+          ],
+          estimatedCost: "2500-8000 сом",
+          timeToFix: "1-3 часа",
+        },
+        "power-loss": {
+          title: "Потеря мощности",
+          causes: [
+            "Засорение воздушного фильтра",
+            "Проблемы с топливной системой",
+            "Износ свечей зажигания",
+            "Неисправность катализатора",
+          ],
+          urgency: "medium",
+          services: [
+            "Замена воздушного фильтра",
+            "Диагностика топливной системы",
+            "Замена свечей",
+          ],
+          estimatedCost: "1500-10000 сом",
+          timeToFix: "1-4 часа",
+        },
+        overheating: {
+          title: "Перегрев двигателя",
+          causes: [
+            "Неисправность термостата",
+            "Засорение радиатора",
+            "Неисправность водяного насоса",
+            "Низкий уровень охлаждающей жидкости",
+          ],
+          urgency: "high",
+          services: [
+            "Замена термостата",
+            "Промывка системы охлаждения",
+            "Замена радиатора",
+          ],
+          estimatedCost: "3000-15000 сом",
+          timeToFix: "2-6 часов",
+        },
+        "oil-leak": {
+          title: "Течь масла",
+          causes: [
+            "Износ прокладок",
+            "Повреждение масляного поддона",
+            "Неисправность сальников",
+            "Ослабление болтов крепления",
+          ],
+          urgency: "medium",
+          services: [
+            "Замена прокладок",
+            "Ремонт масляного поддона",
+            "Замена сальников",
+          ],
+          estimatedCost: "2000-12000 сом",
+          timeToFix: "2-5 часов",
+        },
+        "strange-noise": {
+          title: "Посторонние звуки из двигателя",
+          causes: [
+            "Износ подшипников",
+            "Проблемы с цепью ГРМ",
+            "Неисправность помпы",
+            "Детонация двигателя",
+          ],
+          urgency: "high",
+          services: [
+            "Диагностика двигателя",
+            "Замена цепи ГРМ",
+            "Ремонт подшипников",
+          ],
+          estimatedCost: "5000-30000 сом",
+          timeToFix: "3-8 часов",
+        },
+
+        // Тормозная система
+        "brake-squeal": {
+          title: "Скрип при торможении",
+          causes: [
+            "Износ тормозных колодок",
+            "Загрязнение тормозных дисков",
+            "Деформация тормозных дисков",
+          ],
+          urgency: "medium",
+          services: [
+            "Замена тормозных колодок",
+            "Шлифовка дисков",
+            "Диагностика тормозной системы",
+          ],
+          estimatedCost: "3000-12000 сом",
+          timeToFix: "2-4 часа",
+        },
+        "brake-grinding": {
+          title: "Скрежет при торможении",
+          causes: [
+            "Полный износ тормозных колодок",
+            "Повреждение тормозных дисков",
+            "Попадание посторонних предметов",
+          ],
+          urgency: "high",
+          services: [
+            "Немедленная замена колодок",
+            "Замена/восстановление дисков",
+            "Диагностика системы",
+          ],
+          estimatedCost: "5000-20000 сом",
+          timeToFix: "2-5 часов",
+        },
+        "soft-pedal": {
+          title: "Мягкая педаль тормоза",
+          causes: [
+            "Утечка тормозной жидкости",
+            "Воздух в тормозной системе",
+            "Износ главного тормозного цилиндра",
+            "Неисправность вакуумного усилителя",
+          ],
+          urgency: "high",
+          services: [
+            "Прокачка тормозов",
+            "Поиск утечек",
+            "Замена тормозной жидкости",
+          ],
+          estimatedCost: "2000-15000 сом",
+          timeToFix: "1-4 часа",
+        },
+        "brake-vibration": {
+          title: "Вибрация при торможении",
+          causes: [
+            "Деформация тормозных дисков",
+            "Неравномерный износ колодок",
+            "Проблемы с суппортами",
+          ],
+          urgency: "medium",
+          services: [
+            "Шлифовка/замена дисков",
+            "Замена колодок",
+            "Ремонт суппортов",
+          ],
+          estimatedCost: "4000-18000 сом",
+          timeToFix: "2-5 часов",
+        },
+        "brake-pull": {
+          title: "Увод автомобиля при торможении",
+          causes: [
+            "Неравномерный износ колодок",
+            "Заклинивание суппорта",
+            "Различное давление в тормозных контурах",
+          ],
+          urgency: "high",
+          services: [
+            "Диагностика тормозов",
+            "Ремонт суппортов",
+            "Замена колодок",
+          ],
+          estimatedCost: "3000-15000 сом",
+          timeToFix: "2-4 часа",
+        },
+
+        // Подвеска
+        "bumpy-ride": {
+          title: "Жёсткий ход",
+          causes: [
+            "Износ амортизаторов",
+            "Повреждение пружин",
+            "Неправильное давление в шинах",
+            "Износ сайлентблоков",
+          ],
+          urgency: "medium",
+          services: [
+            "Замена амортизаторов",
+            "Замена пружин",
+            "Диагностика подвески",
+          ],
+          estimatedCost: "5000-25000 сом",
+          timeToFix: "3-6 часов",
+        },
+        clunking: {
+          title: "Стуки на неровностях",
+          causes: [
+            "Износ амортизаторов",
+            "Неисправность стоек стабилизатора",
+            "Износ шаровых опор",
+            "Проблемы с сайлентблоками",
+          ],
+          urgency: "medium",
+          services: [
+            "Замена амортизаторов",
+            "Замена стоек стабилизатора",
+            "Ремонт подвески",
+          ],
+          estimatedCost: "4000-25000 сом",
+          timeToFix: "2-6 часов",
+        },
+        "steering-issues": {
+          title: "Проблемы с рулевым управлением",
+          causes: [
+            "Износ рулевых тяг",
+            "Неисправность рулевой рейки",
+            "Проблемы с гидроусилителем",
+            "Износ подшипника ступицы",
+          ],
+          urgency: "high",
+          services: [
+            "Замена рулевых тяг",
+            "Ремонт рулевой рейки",
+            "Диагностика ГУР",
+          ],
+          estimatedCost: "3000-20000 сом",
+          timeToFix: "2-5 часов",
+        },
+        "tire-wear": {
+          title: "Неравномерный износ шин",
+          causes: [
+            "Нарушение углов установки колёс",
+            "Износ элементов подвески",
+            "Неправильное давление в шинах",
+            "Дисбаланс колёс",
+          ],
+          urgency: "medium",
+          services: [
+            "Развал-схождение",
+            "Балансировка колёс",
+            "Диагностика подвески",
+          ],
+          estimatedCost: "1500-8000 сом",
+          timeToFix: "1-3 часа",
+        },
+        "car-pulls": {
+          title: "Увод автомобиля в сторону",
+          causes: [
+            "Нарушение развала-схождения",
+            "Разное давление в шинах",
+            "Износ элементов подвески",
+            "Деформация дисков",
+          ],
+          urgency: "medium",
+          services: [
+            "Развал-схождение",
+            "Диагностика подвески",
+            "Проверка дисков",
+          ],
+          estimatedCost: "2000-12000 сом",
+          timeToFix: "1-4 часа",
+        },
+
+        // Электрика
+        "battery-dead": {
+          title: "Разряженный аккумулятор",
+          causes: [
+            "Естественный износ аккумулятора",
+            "Неисправность генератора",
+            "Утечка тока в электросистеме",
+            "Длительный простой автомобиля",
+          ],
+          urgency: "high",
+          services: [
+            "Замена аккумулятора",
+            "Диагностика генератора",
+            "Поиск утечек тока",
+          ],
+          estimatedCost: "3000-12000 сом",
+          timeToFix: "1-2 часа",
+        },
+        "lights-dim": {
+          title: "Тусклый свет фар",
+          causes: [
+            "Окисление контактов",
+            "Неисправность генератора",
+            "Старые лампы",
+            "Помутнение фар",
+          ],
+          urgency: "medium",
+          services: [
+            "Замена ламп",
+            "Чистка контактов",
+            "Полировка фар",
+            "Диагностика генератора",
+          ],
+          estimatedCost: "1000-5000 сом",
+          timeToFix: "1-2 часа",
+        },
+        "electrical-failure": {
+          title: "Отказ электрооборудования",
+          causes: [
+            "Перегоревшие предохранители",
+            "Обрыв проводки",
+            "Неисправность реле",
+            "Окисление контактов",
+          ],
+          urgency: "medium",
+          services: [
+            "Диагностика электрики",
+            "Замена предохранителей",
+            "Ремонт проводки",
+          ],
+          estimatedCost: "1500-8000 сом",
+          timeToFix: "1-4 часа",
+        },
+        "alternator-issues": {
+          title: "Проблемы с генератором",
+          causes: [
+            "Износ щёток генератора",
+            "Неисправность регулятора напряжения",
+            "Износ подшипников",
+            "Обрыв обмотки",
+          ],
+          urgency: "high",
+          services: [
+            "Ремонт генератора",
+            "Замена щёток",
+            "Замена регулятора напряжения",
+          ],
+          estimatedCost: "3000-15000 сом",
+          timeToFix: "2-4 часа",
+        },
+      };
+
+      // DOM elements
+      const categoriesContainer = document.getElementById(
+        "categoriesContainer"
+      );
+      const symptomsContainer = document.getElementById("symptomsContainer");
+      const diagnosisContainer = document.getElementById("diagnosisContainer");
+      const categoryIcon = document.getElementById("categoryIcon");
+      const categoryTitle = document.getElementById("categoryTitle");
+      const symptomsGrid = document.getElementById("symptomsGrid");
+      const backToCategories = document.getElementById("backToCategories");
+      const backToSymptoms = document.getElementById("backToSymptoms");
+
+      // Utility functions
+      function getUrgencyClass(urgency) {
+        switch (urgency) {
+          case "high":
+            return "urgency-high";
+          case "medium":
+            return "urgency-medium";
+          case "low":
+            return "urgency-low";
+          default:
+            return "";
+        }
+      }
+
+      function getUrgencyText(urgency) {
+        switch (urgency) {
+          case "high":
+            return "СРОЧНО";
+          case "medium":
+            return "ВАЖНО";
+          case "low":
+            return "ПЛАНОВОЕ";
+          default:
+            return "";
+        }
+      }
+
+      function showContainer(container) {
+        categoriesContainer.classList.add("hidden");
+        symptomsContainer.classList.add("hidden");
+        diagnosisContainer.classList.add("hidden");
+        container.classList.remove("hidden");
+      }
+
+      function handleCategorySelect(category) {
+        selectedCategory = category;
+        selectedSymptom = "";
+
+        const categoryData = symptomCategories[category];
+        categoryIcon.textContent = categoryData.icon;
+        categoryTitle.textContent = categoryData.title;
+
+        // Clear and populate symptoms grid
+        symptomsGrid.innerHTML = "";
+        Object.entries(categoryData.symptoms).forEach(([key, symptom]) => {
+          const symptomCard = document.createElement("div");
+          symptomCard.className = "symptom-card";
+          symptomCard.dataset.symptom = key;
+          symptomCard.innerHTML = `
+                    <span class="icon">⚠️</span>
+                    <span class="symptom-text">${symptom}</span>
+                `;
+          symptomCard.addEventListener("click", () => handleSymptomSelect(key));
+          symptomsGrid.appendChild(symptomCard);
+        });
+
+        // Re-initialize icons for new content - not needed anymore with emoji
+        showContainer(symptomsContainer);
+      }
+
+      function handleSymptomSelect(symptom) {
+        selectedSymptom = symptom;
+        const diagnosis = diagnoses[symptom];
+
+        if (!diagnosis) return;
+
+        // Set urgency badge
+        const urgencyBadge = document.getElementById("urgencyBadge");
+        urgencyBadge.className = `urgency-badge ${getUrgencyClass(
+          diagnosis.urgency
+        )}`;
+        document.getElementById("urgencyText").textContent = getUrgencyText(
+          diagnosis.urgency
+        );
+
+        // Populate causes
+        const causesList = document.getElementById("causesList");
+        causesList.innerHTML = "";
+        diagnosis.causes.forEach((cause) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+                    <div class="list-dot causes-dot"></div>
+                    <span>${cause}</span>
+                `;
+          causesList.appendChild(li);
+        });
+
+        // Populate services
+        const servicesList = document.getElementById("servicesList");
+        servicesList.innerHTML = "";
+        diagnosis.services.forEach((service) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+                    <div class="list-dot services-dot"></div>
+                    <span>${service}</span>
+                `;
+          servicesList.appendChild(li);
+        });
+
+        // Set cost and time
+        document.getElementById("costValue").textContent =
+          diagnosis.estimatedCost;
+        document.getElementById("timeValue").textContent = diagnosis.timeToFix;
+
+        showContainer(diagnosisContainer);
+      }
+
+      function resetToCategories() {
+        selectedCategory = "";
+        selectedSymptom = "";
+        showContainer(categoriesContainer);
+      }
+
+      function backToSymptomsView() {
+        selectedSymptom = "";
+        showContainer(symptomsContainer);
+      }
+
+      // Event listeners
+      document.addEventListener("DOMContentLoaded", function () {
+        // Category cards
+        document.querySelectorAll(".category-card").forEach((card) => {
+          card.addEventListener("click", () => {
+            const category = card.dataset.category;
+            handleCategorySelect(category);
+          });
+        });
+
+        // Back buttons
+        backToCategories.addEventListener("click", (e) => {
+          e.preventDefault();
+          resetToCategories();
+        });
+
+        backToSymptoms.addEventListener("click", (e) => {
+          e.preventDefault();
+          backToSymptomsView();
+        });
+      });
+    </script>
+  </body>
+</html>
